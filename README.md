@@ -20,7 +20,7 @@ A responsive landing page for PreCrisis.AI, designed to highlight the platform's
 
 1. **Clone the Repository**:
     ```bash
-    git clone https://github.com/username/precrisis-ai-landing.git
+    git clone git@github.com:RIAEvangelist/precrisis.git
     ```
 2. **Open the HTML File**:
    Open the `index.html` file in your browser to view the landing page.
