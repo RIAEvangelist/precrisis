@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PreCrisis.AI - Restricted Terminal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            color: #00ff00;
+        }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #000;
+            font-family: monospace;
+        }
+        #terminal {
+            max-width: 600px;
+            background: #101010;
+            padding: 20px;
+            border: 2px solid #00ff00;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
+            color: #00ff00;
+            text-align: left;
+        }
+        #output {
+            white-space: pre-wrap;
+        }
+        #input-line {
+            display: inline-flex;
+            align-items: center;
+        }
+        #input-prompt {
+            margin-right: 5px;
+        }
+        #user-input {
+            background: transparent;
+            color: #00ff00;
+            outline: none;
+            display: inline;
+            caret-color: transparent; /* Makes the caret "invisible" */
+        }
+        
+        .blinking-cursor {
+            display: inline-block;
+            width: 8px;
+            height: 16px;
+            background: #00ff00;
+            animation: blink 1s steps(1) infinite;
+            visibility: hidden;
+            vertical-align: middle;
+        }
+
+        .blinking-cursor.active {
+            visibility: visible;
+        }
+        @keyframes blink {
+            0%, 50% {
+                opacity: 1;
+            }
+            50.1%, 100% {
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="terminal">
+        <pre id="output">PreCrisis.AI - Restricted Terminal Access
+Unauthorized access is forbidden. All actions are monitored.
+</pre>
+        <div id="input-line">
+            <span id="input-prompt">user@PreCrisis.AI:~$</span>
+            <span id="user-input" contenteditable="true"></span>
+            <div class="blinking-cursor"></div>
+        </div>
+    </div>
+
+    <script>
+        console.log("You didn’t really think I’d expose anything here, did you? 😜");
+
+        const output = document.getElementById("output");
+        const userInput = document.getElementById("user-input");
+        const cursor = document.querySelector(".blinking-cursor");
+
+        // Fake responses for Linux commands
+        const commandResponses = {
+            "ls": "documents\ndata\nrestricted_files",
+            "pwd": "/home/user",
+            "whoami": "unauthorized_user",
+            "help": "Available commands: ls, pwd, whoami, help, clear",
+            "clear": "clear"
+        };
+
+        // Handle Enter key for command input
+        userInput.addEventListener("keydown", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault(); // Prevent new line
+                const command = userInput.textContent.trim();
+                userInput.textContent = "";
+
+                // Output the command
+                output.textContent += `\nuser@PreCrisis.AI:~$ ${command}\n`;
+
+                // Determine response
+                if (commandResponses[command]) {
+                    if (command === "clear") {
+                        output.textContent = "PreCrisis.AI - Restricted Terminal Access\nUnauthorized access is forbidden. All actions are monitored.";
+                    } else {
+                        output.textContent += `${commandResponses[command]}\n`;
+                    }
+                } else {
+                    output.textContent += `command not found: ${command}\n`;
+                }
+
+                // Auto-scroll to bottom
+                terminal.scrollTop = terminal.scrollHeight;
+            }
+        });
+
+        // Handle focus and blur events for cursor
+        userInput.addEventListener("focus", () => {
+            cursor.classList.add("active");
+            placeCaretAtEnd(userInput);
+        });
+
+        userInput.addEventListener("blur", () => {
+            cursor.classList.remove("active");
+        });
+
+        // Function to place caret at the end of the contenteditable span
+        function placeCaretAtEnd(element) {
+            const range = document.createRange();
+            const selection = window.getSelection();
+            range.selectNodeContents(element);
+            range.collapse(false);
+            selection.removeAllRanges();
+            selection.addRange(range);
+        }
+
+        // Focus on the input when clicking anywhere in the terminal
+        document.getElementById("terminal").addEventListener("click", () => {
+            userInput.focus();
+        });
+    </script>
+</body>
+</html>

@@ -1,152 +1,1323 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Meta Tags -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PreCrisis.AI - Restricted Terminal</title>
+    <title>PreCrisis.AI - Proactive Crisis Detection & Intervention</title>
+    <meta name="description" content="PreCrisis.AI: Proactive crisis detection and prevention for veterans, first responders, influencers, seniors, and mental health professionals.">
+
+    <!-- Styles -->
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            color: #00ff00;
-        }
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background: #000;
-            font-family: monospace;
-        }
-        #terminal {
-            max-width: 600px;
-            background: #101010;
-            padding: 20px;
-            border: 2px solid #00ff00;
-            box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
-            color: #00ff00;
-            text-align: left;
-        }
-        #output {
-            white-space: pre-wrap;
-        }
-        #input-line {
-            display: inline-flex;
-            align-items: center;
-        }
-        #input-prompt {
-            margin-right: 5px;
-        }
-        #user-input {
-            background: transparent;
-            color: #00ff00;
-            outline: none;
-            display: inline;
-            caret-color: transparent; /* Makes the caret "invisible" */
-        }
-        
-        .blinking-cursor {
-            display: inline-block;
-            width: 8px;
-            height: 16px;
-            background: #00ff00;
-            animation: blink 1s steps(1) infinite;
-            visibility: hidden;
-            vertical-align: middle;
+        /* CSS Variables for Theming */
+        :root {
+            --primary-color: #0066cc;
+            --secondary-color: #005bb5;
+            --background-light: #f9f9f9;
+            --background-dark: #121212;
+            --text-light: #333;
+            --text-dark: #e0e0e0;
+            --accent-color: #016cd6;
+            --font-family: 'Helvetica Neue', Arial, sans-serif;
+            --testimonial-bg-light: #fff;
+            --testimonial-bg-dark: #1e1e1e;
+            --testimonial-border-light: #ddd;
+            --testimonial-border-dark: #333;
+            --section-alt-bg: #eeeeee; /* Lightened background for light mode */
+            --section-alt-bg-dark: #161515; /* Dark mode background */
+            --hero-bg:rgba(200,200,200,.9);
+            --hero-bg-dark:rgba(0,0,0,.8);
         }
 
-        .blinking-cursor.active {
-            visibility: visible;
+        /* Global Styles */
+        body {
+            font-family: var(--font-family);
+            margin: 0;
+            background-color: var(--background-light);
+            color: var(--text-light);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
-        @keyframes blink {
-            0%, 50% {
-                opacity: 1;
+
+        /* Navigation */
+        nav {
+            width: 100%;
+            background-color: var(--primary-color);
+            box-sizing: border-box;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            background-color: var(--primary-color);
+        }
+
+        nav > ul > li {
+            position: relative;
+            margin: 0 15px;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 15px;
+            display: block;
+        }
+
+        nav ul ul {
+            display:flex;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            display: none; /* Hide dropdowns initially */
+            background-color: var(--primary-color);
+            flex-direction: column;
+            min-width: 200px;
+            z-index:500;
+            box-shadow: 0 .3em .3em rgba(0,0,0.5);
+        }
+
+        nav ul ul li {
+            margin: 0;
+        }
+
+        nav ul ul a {
+            padding: 10px;
+            font-size: 0.9em;
+        }
+
+        nav ul li:hover > ul {
+            display: block; /* Show dropdown on hover */
+        }
+
+        nav ul ul li:hover > ul {
+            display: none; /* Prevent sub-submenus */
+        }
+
+        nav a:hover {
+            background-color: var(--secondary-color);
+            color: #fff;
+        }
+
+        /* Hero Section */
+        #hero {
+            width: 100%;
+            background-image: url('./img/hero.jpg');
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+            text-align: center;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        #hero h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-shadow: 0 0 4px  var(--accent-color);
+        }
+
+        #hero .mask{
+            padding: 80px 20px;
+            width: calc(100% - 40px);
+            height:100%;
+            background-color: var(--hero-bg);
+        }
+
+        #hero p {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            text-shadow: 0 0 4px  var(--accent-color);
+        }
+
+        /* Sections */
+        section {
+            width: 100%;
+            padding: 50px 20px;
+            box-sizing: border-box;
+        }
+
+        section h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            text-align: center;
+            color: var(--primary-color);
+        }
+
+        section p {
+            font-size: 1em;
+            line-height: 1.6;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 30px auto;
+        }
+
+        section p.emoji-header{
+            font-size: 4em;
+        }
+
+        /* Alternate Section Backgrounds */
+        section:nth-child(even) {
+            background-color: var(--section-alt-bg);
+            color: #333;
+        }
+
+        /* Video Carousel */
+        .video-carousel {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px 0;
+        }
+
+        .video-carousel iframe {
+            flex: 1 1 300px;
+            max-width: 560px;
+            height: 315px;
+            border: none;
+        }
+
+        /* Team Section */
+        .team-container, .board-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 40px;
+        }
+
+        .team-member, .board-member {
+            max-width: 300px;
+            text-align: center;
+        }
+
+        .team-member img, .board-member img {
+            width: 100%;
+            border-radius: 50%;
+            margin-bottom: 15px;
+        }
+
+        .team-member h3, .board-member h3 {
+            margin: 10px 0 5px 0;
+            font-size: 1.5em;
+        }
+
+        .team-member h4, .board-member h4 {
+            margin: 0 0 10px 0;
+            font-weight: normal;
+            color: var(--secondary-color);
+        }
+
+        /* Testimonials */
+        .testimonial-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .testimonial {
+            background-color: #333;
+            border: 1px solid var(--testimonial-border-light);
+            border-radius: 8px;
+            padding: 20px;
+            box-sizing: border-box;
+            max-width: 500px;
+            color: #fff;
+            text-align: left;
+        }
+
+        .testimonial h3 {
+            margin-top: 0;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            background-color: var(--primary-color);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .btn:hover {
+            background-color: var(--secondary-color);
+        }
+
+        /* Centered Button */
+        .btn-center {
+            margin: 20px auto 0 auto;
+            display: block;
+            text-align: center;
+        }
+
+        /* Mission and Objectives */
+        .mission-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .mission-item {
+            flex: 1 1 200px;
+            max-width: 250px;
+            text-align: center;
+        }
+
+        .mission-item img {
+            width: 60px;
+            margin-bottom: 15px;
+        }
+
+        .mission-item h3 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .mission-item p {
+            font-size: 0.95em;
+            line-height: 1.4;
+            color: var(--text-light);
+        }
+
+        /* Prevention Focus */
+        .prevention-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 40px;
+        }
+
+        .prevention-item {
+            flex: 1 1 250px;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .prevention-item h3 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        .prevention-item p {
+            font-size: 1em;
+            line-height: 1.6;
+            color: inherit;
+        }
+
+        /* Competitor Comparison Table Styling */
+        .comparison-table-container {
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9em;
+            background-color: var(--background-light);
+            margin-top: 20px;
+            color: var(--text-light);
+        }
+
+        .comparison-table th, .comparison-table td {
+            padding: 10px 15px;
+            text-align: center;
+            border: 1px solid var(--testimonial-border-light);
+        }
+
+        .comparison-table th {
+            background-color: var(--primary-color);
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background-color: var(--section-alt-bg);
+        }
+
+        .comparison-table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .comparison-table td {
+            font-size: 0.85em;
+        }
+
+
+        /* Footer */
+        footer {
+            width: 100%;
+            background-color: var(--primary-color);
+            color: #fff;
+            text-align: center;
+            padding: 15px;
+            box-sizing: border-box;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            #hero h1 {
+                font-size: 2em;
             }
-            50.1%, 100% {
-                opacity: 0;
+
+            #hero p {
+                font-size: 1em;
+            }
+
+            .team-container, .testimonial-container, .board-container, .mission-list, .prevention-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            nav ul {
+                flex-direction: column;
+            }
+
+            nav li {
+                margin: 5px;
             }
         }
+
+        /* Define the wiggle animation */
+        @keyframes wiggle {
+            from, to { transform: scale(1, 1); }
+            25% { transform: scale(0.9, 1.1); }
+            50% { transform: scale(1.1, 0.9); }
+            75% { transform: scale(0.95, 1.05); }
+        }
+
+        /* Define the flash animation */
+        @keyframes flash {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Apply the combined wiggle and flash animations */
+        .wiggle-button {
+            animation: wiggle 300ms linear 2, flash 300ms ease-in-out 2;
+        }
+
+        /* Dark Mode */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: var(--background-dark);
+                color: var(--text-dark);
+            }
+
+            #hero .mask{
+                background-color:var(--hero-bg-dark);
+            }
+ 
+
+            .card, .testimonial {
+                background-color: var(--testimonial-bg-dark);
+                border-color: var(--testimonial-border-dark);
+            }
+
+            .btn {
+                background-color: var(--accent-color);
+            }
+            
+            section {
+                background-color: var(--background-dark);
+            }
+
+            section:nth-child(even) {
+                background-color: var(--section-alt-bg-dark);
+                color: var(--text-dark);
+            }
+
+            .mission-item p{
+                color: #cfcfcf;   
+            }
+
+            nav {
+                background-color: #1a1a1a;
+            }
+
+            .comparison-table {
+                background-color: var(--background-dark);
+                color: var(--text-dark);
+            }
+
+            .comparison-table th {
+                background-color: var(--accent-color);
+            }
+
+            .comparison-table td {
+                border-color: var(--testimonial-border-dark);
+            }
+
+            .comparison-table tr:nth-child(even) {
+                background-color: var(--section-alt-bg-dark);
+            }
+
+            .comparison-table tr:hover {
+                background-color: #333;
+            }
+
+            .testimonial {
+                background-color: #444;
+                color: #fff;
+            }
+        }
+
     </style>
 </head>
 <body>
-    <div id="terminal">
-        <pre id="output">PreCrisis.AI - Restricted Terminal Access
-Unauthorized access is forbidden. All actions are monitored.
-</pre>
-        <div id="input-line">
-            <span id="input-prompt">user@PreCrisis.AI:~$</span>
-            <span id="user-input" contenteditable="true"></span>
-            <div class="blinking-cursor"></div>
+
+    <!-- Navigation -->
+    <nav>
+        <ul reversed>
+            <li><a href="#hero">Home</a></li>
+            <li>
+                <a href="#about">About</a>
+                <ul>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#mission">Mission & Objectives</a></li>
+                    <li><a href="#origin">Our Origin</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#services">Services</a>
+                <ul>
+                    <li><a href="#prevention-focus">Prevention Focus</a></li>
+                    <li><a href="#thrive-id">Thrive ID</a></li>
+                    <li><a href="#how-it-works">How It Works</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#focus-areas">Focus Areas</a>
+                <ul>
+                    <li><a href="#influencers">Protecting Influencers</a></li>
+                    <li><a href="#seniors">Safeguarding Seniors</a></li>
+                    <li><a href="#school-safety">School Safety</a></li>
+                    <li><a href="#economic-impact">Economic Impact</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#team">Team</a>
+                <ul>
+                    <li><a href="#team">Our Team</a></li>
+                    <li><a href="#board">Advisors</a></li>
+                </ul>
+            </li>
+            <li><a href="#achievement">Achievements</a></li>
+            <li><a href="#manufacturing">Manufacturing</a></li>
+            <li><a href="#competitor-comparison">Competitor Comparison</a></li>
+            <li>
+                <a href="#support">Support</a>
+                <ul>
+                    <li><a href="#support">Support Our Mission</a></li>
+                    <li><a href="#testimonials">Testimonials</a></li>
+                </ul>
+            </li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+
+    <!-- Hero Section -->
+    <section id="hero">
+        <div class="mask">
+            <h1>PreCrisis.AI</h1>
+            <p>Detecting and Preventing Crises Before They Strike</p>
+            <a href="#support" class="btn btn-center">Support Our Mission</a>
         </div>
-    </div>
+    </section>
 
+    <!-- About Us Section -->
+    <section id="about">
+        <h2>About Us</h2>
+        <p>We are Service-Disabled Veterans and mental health experts committed to preventing tragedies like suicides, homicides, school shootings, terrorism, cyberbullying, and scams. Utilizing personal experiences, we've created a groundbreaking AI platform that detects and prevents crises by involving the right people and support systems before it's too late.</p>
+        <a href="#support" class="btn btn-center">Invest in Us</a>
+    </section>
+
+    <!-- Prevention Focus Section -->
+    <section id="prevention-focus">
+        <h2>Our Prevention Focus</h2>
+        <div class="prevention-container">
+            <!-- Prevention Item 1 -->
+            <div class="prevention-item">
+                <h3>Suicide Prevention</h3>
+                <p>Our AI platform detects early warning signs of suicide, providing timely interventions to connect individuals with the help they need before it's too late.</p>
+            </div>
+
+            <!-- Prevention Item 2 -->
+            <div class="prevention-item">
+                <h3>Homicide Prevention</h3>
+                <p>We analyze behavioral patterns to identify potential risks of violent behavior, enabling authorities and caregivers to take proactive measures.</p>
+            </div>
+
+            <!-- Prevention Item 3 -->
+            <div class="prevention-item">
+                <h3>Terrorism Prevention</h3>
+                <p>By monitoring for radicalization indicators, our technology helps prevent terroristic activities, contributing to global security efforts.</p>
+            </div>
+
+            <!-- Prevention Item 4 -->
+            <div class="prevention-item">
+                <h3>NSD & Burnout</h3>
+                <p>We address Nervous System Dysregulation and burnout by providing tools and resources to manage stress, enhancing overall well-being.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Thrive ID Section -->
+    <section id="thrive-id">
+        <h2>Thrive ID</h2>
+        <p>THRIVE-ID is a comprehensive assessment tool designed to evaluate critical wellness factors: Trauma, Substance Abuse, Anxiety, Stress, Functionality, and Environment, with a strong emphasis on building resilience.</p>
+        <p>By focusing on inner resilience, THRIVE-ID helps individuals identify where they need human involvement to prevent crises and improve long-term well-being.</p>
+    </section>
+
+    <!-- Mission and Objectives Section -->
+    <section id="mission">
+        <h2>Our Mission & Objectives</h2>
+        <div class="mission-list">
+            <div class="mission-item">
+                <p class="emoji-header" alt="Reduce Suicides">🛡️</p>
+                <h3>Reduce Suicides</h3>
+                <p>Implementing AI solutions to detect and prevent suicide risks.</p>
+            </div>
+            <div class="mission-item">
+                <p class="emoji-header" alt="Prevent Violence">✋</p>
+                <h3>Prevent Violence</h3>
+                <p>Identifying potential threats to prevent homicides and mass violence.</p>
+            </div>
+            <div class="mission-item">
+                <p class="emoji-header" alt="Enhance Security">🔒</p>
+                <h3>Enhance Security</h3>
+                <p>Monitoring indicators to prevent terroristic activities globally.</p>
+            </div>
+            <div class="mission-item">
+                <p class="emoji-header" alt="Support Well-being">🌱</p>
+                <h3>Support Well-being</h3>
+                <p>Addressing NSD and burnout to improve mental health and resilience.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section id="team">
+        <h2>Our Team</h2>
+        <div class="team-container">
+            <!-- Team Member 1 -->
+            <div class="team-member">
+                <img src="https://images.crunchbase.com/image/upload/c_thumb,h_200,w_200,f_auto,g_face,z_0.7,b_white,q_auto:eco,dpr_1/ydokajnnpqpvifffne6o" alt="Brandon Nozaki Miller">
+                <h3>Brandon Nozaki Miller</h3>
+                <h4>CTO</h4>
+                <p>Technologist, Linguist, Engineer, and Entrepreneur focused on helping the world with his skills and experience.</p>
+                <a href="https://www.linkedin.com/in/turtlesallthewaydown/" target="_blank" class="btn">LinkedIn Profile</a>
+            </div>
+
+            <!-- Team Member 2 -->
+            <div class="team-member">
+                <img src="https://images.squarespace-cdn.com/content/v1/63d18f06d5fe9d0902eb3583/b595dc2f-4e58-4ad2-8286-64d7050f2865/BetterMe2023.jpg" alt="Trisha Houghton">
+                <h3>Trisha Houghton</h3>
+                <h4>Co-Founder & Director of Mental Health</h4>
+                <p>"Stressalist™" coaching and training SOF, including Navy SEALs, Active Duty, and Transitioning Service Members.</p>
+                <a href="https://www.linkedin.com/in/trisha-houghton-6b748376/" target="_blank" class="btn">LinkedIn Profile</a>
+            </div>
+
+            <!-- Team Member 3 -->
+            <div class="team-member">
+                <img src="https://images.crunchbase.com/image/upload/c_thumb,h_200,w_200,f_auto,g_face,z_0.7,b_white,q_auto:eco,dpr_1/cjh7wl5bdevbo3pkyokd" alt="Joshua Mateo">
+                <h3>Joshua Mateo</h3>
+                <h4>Sr. Front End Engineer</h4>
+                <p>Staff Software Engineer with a passion for problem-solving. An expert in full-stack development including databases.</p>
+                <a href="https://www.linkedin.com/in/joshua-mateooo/" target="_blank" class="btn">LinkedIn Profile</a>
+            </div>
+
+            <!-- Team Member 4 -->
+            <div class="team-member">
+                <img src="https://images.crunchbase.com/image/upload/c_thumb,h_200,w_200,f_auto,g_face,z_0.7,b_white,q_auto:eco,dpr_1/box1teu8zmnlb3gaveqf" alt="Christopher Henderson">
+                <h3>Christopher Henderson</h3>
+                <h4>Staff Collaborative Engineer</h4>
+                <p>Information Security Officer at the US Department of Veterans Affairs. A Marine motivated to help others through tech.</p>
+                <a href="https://www.linkedin.com/in/christopher-henderson-6098b413/" target="_blank" class="btn">LinkedIn Profile</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Alibaba CoCreate Achievement -->
+    <section id="achievement">
+        <h2>Global Recognition</h2>
+        <p>We are proud to announce that PreCrisis.AI secured <strong>18th place out of 80,000 participants</strong> at the Alibaba CoCreate Global AI Competition. This achievement underscores our commitment to innovation and excellence in AI technology.</p>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works">
+        <h2>How It Works</h2>
+        <p>PreCrisis.AI utilizes advanced AI algorithms to analyze real-time data, including stress levels and behavioral changes. Our platform is HIPAA and SOC 3 compliant, ensuring the highest standards of privacy and security. We offer both frontier models and local offline models suitable for various environments, including hardened or commercial systems.</p>
+        <a href="#support" class="btn btn-center">Support Our Technology</a>
+    </section>
+
+    <!-- Thrive ID Section -->
+    <section id="thrive-id">
+        <h2>Thrive ID</h2>
+        <p>THRIVE-ID is a comprehensive assessment tool designed to evaluate critical wellness factors: Trauma, Substance Abuse, Anxiety, Stress, Functionality, and Environment, with a strong emphasis on building Resilience. It integrates an advanced, standardized trigger evaluation, providing pivotal insights that the AI leverages to identify and prioritize areas in need.</p>
+        <p>By focusing on inner resilience, THRIVE-ID aims to holistically identify challenges so individuals know where they specifically need human involvement to prevent crises and improve long-term well-being.</p>
+    </section>
+
+    <!-- Protecting Influencers Section -->
+    <section id="influencers">
+        <h2>Protecting Influencers & Creators</h2>
+        <p>In today's digital landscape, influencers and content creators face hostile cyberbullying and online harassment. PreCrisis.AI offers advanced monitoring and intervention tools to protect public figures from these threats, fostering a safer online environment and promoting mental well-being.</p>
+        <a href="#support" class="btn btn-center">Support Our Creators</a>
+    </section>
+
+    <!-- Safeguarding Seniors Section -->
+    <section id="seniors">
+        <h2>Safeguarding Seniors</h2>
+        <p>Seniors are often targets of scams and social engineering attacks. Our AI technology helps detect and prevent these threats by monitoring for suspicious activities and providing alerts to caregivers or authorities, ensuring our seniors are protected.</p>
+        <a href="#support" class="btn btn-center">Protect Our Seniors</a>
+    </section>
+
+    <!-- Video Carousel Section -->
+    <section id="videos">
+        <h2>Learn More Through Our Videos</h2>
+        <div class="video-carousel">
+            <iframe src="https://www.youtube.com/embed/videoID1" title="Video 1" allowfullscreen></iframe>
+            <iframe src="https://www.youtube.com/embed/videoID2" title="Video 2" allowfullscreen></iframe>
+            <iframe src="https://www.youtube.com/embed/videoID3" title="Video 3" allowfullscreen></iframe>
+            <!-- Add more iframes as needed -->
+        </div>
+    </section>
+
+    <!-- School Safety Section -->
+    <section id="school-safety">
+        <h2>Enhancing School Safety</h2>
+        <p>By integrating with school systems, PreCrisis.AI helps identify students in need of support, enabling guidance counselors to intervene proactively. Our technology fosters a safer learning environment, promoting well-being and academic success.</p>
+        <a href="#support" class="btn btn-center">Help Our Schools</a>
+    </section>
+
+    <!-- Economic Impact Section -->
+    <section id="economic-impact">
+        <h2>Positive Economic Impact</h2>
+        <p>Our solution not only saves lives but also reduces systemic costs associated with crises. By reintegrating individuals into the workforce and reducing the burden on healthcare and law enforcement, we contribute to a stronger, more resilient economy.</p>
+        <a href="#support" class="btn btn-center">Invest in the Future</a>
+    </section>
+
+    <!-- Origin Story Section -->
+    <section id="origin">
+        <h2>Our Origin</h2>
+        <p>PreCrisis.AI was born at a Veterans Mental Health Hackathon, where our innovative approach earned us second place. Inspired by personal losses and a commitment to preventing tragedies, we set out to create a solution that could make a real difference.</p>
+    </section>
+
+    <!-- LifeLine.vet Section -->
+    <section id="lifeline">
+        <h2>LifeLine.vet: Our Foundation</h2>
+        <p>LifeLine.vet is the parent company researching & pioneering AI solutions to solve the world's most pressing problems. Our mission is to enhance peace, justice, and ensure a safer, more comfortable, and resilient future for generations to come.</p>
+        <p>Operating in remote and isolated environments such as the Arctic, space, Mars, deep sea, submarines, and scientific expeditions, LifeLine.vet provides critical support where it's needed most.</p>
+    </section>
+
+    <!-- Board of Advisors Section -->
+    <section id="board">
+        <h2>Board of Advisors</h2>
+        <div class="board-container">
+            <!-- Board Member 1 -->
+            <div class="board-member">
+                <img src="https://images.crunchbase.com/image/upload/c_pad,h_200,w_200,f_auto,b_white,q_auto:eco,dpr_1/okmvnzyw37sf0uo8rqck" alt="Mick McKeown">
+                <h3>Mick McKeown</h3>
+                <h4>Government Business Development Advisor</h4>
+                <p>Experienced advisor specializing in government business development for LifeLine.vet AI.</p>
+            </div>
+
+            <!-- Board Member 2 -->
+            <div class="board-member">
+                <img src="https://images.crunchbase.com/image/upload/c_pad,h_200,w_200,f_auto,b_white,q_auto:eco,dpr_1/kk2q1tqyzbdhzklua83c" alt="Kevin Sieff">
+                <h3>Kevin Sieff</h3>
+                <h4>Business & Strategy Advisor</h4>
+                <p>Expert in business strategy with a focus on scaling startups and driving growth.</p>
+            </div>
+
+            <!-- Board Member 3 -->
+            <div class="board-member">
+                <img src="https://images.crunchbase.com/image/upload/c_pad,h_200,w_200,f_auto,b_white,q_auto:eco,dpr_1/zn2gmwsp1epuyrrxpu4s" alt="Greg VanDyne">
+                <h3>Greg VanDyne</h3>
+                <h4>Mental Health Startup Advisor</h4>
+                <p>Advisor with extensive experience in mental health startups and innovation.</p>
+            </div>
+
+            <!-- Board Member 4 -->
+            <div class="board-member">
+                <img src="https://images.crunchbase.com/image/upload/c_pad,h_200,w_200,f_auto,b_white,q_auto:eco,dpr_1/pfo8oas5quwlybsgxlk6" alt="Kathleen Steuber">
+                <h3>Kathleen Steuber</h3>
+                <h4>Business Advisor</h4>
+                <p>Seasoned business advisor helping LifeLine.vet AI navigate complex markets.</p>
+            </div>
+
+            <!-- Board Member 5 -->
+            <div class="board-member">
+                <img src="https://images.crunchbase.com/image/upload/c_pad,h_200,w_200,f_auto,b_white,q_auto:eco,dpr_1/ek9txziaahxlxuw1f2gt" alt="Jake Dulle">
+                <h3>Jake Dulle</h3>
+                <h4>Startup Business and Funding Advisor</h4>
+                <p>Expert in startup funding and business development strategies.</p>
+            </div>
+
+            <!-- Board Member 6 -->
+            <div class="board-member">
+                <img src="https://images.crunchbase.com/image/upload/c_pad,h_200,w_200,f_auto,b_white,q_auto:eco,dpr_1/ehmwcprm7dfe7bq4zzr8" alt="Jameel Matin">
+                <h3>Jameel Matin</h3>
+                <h4>Tech Startup Space Advisor</h4>
+                <p>Advisor specializing in tech startups and space industry innovations.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Manufacturing Section -->
+    <section id="manufacturing">
+        <h2>Manufacturing & Logistics</h2>    
+        <p>We are also collaborating with <strong>carmine denisco</strong> and <strong>Jay Emma</strong> through earmark sourcing, enhancing our capabilities to serve communities better. This includes fully stateside US manufacturing supply chains as well as international supply chains depending on the hardness and demographic requirements.</p>
+        <a href="#support" class="btn btn-center">Invest in Us</a>
+    </section>
+
+    <!-- Competitor Comparison Section -->
+    <section id="competitor-comparison">
+        <h2>Competitor Comparison</h2>
+        <p>Explore how PreCrisis.AI stands out among other platforms in proactive crisis prevention and intervention.</p>
+
+        <div class="comparison-table-container">
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Feature/Service</th>
+                        <th>PreCrisis.AI</th>
+                        <th>BetterHelp</th>
+                        <th>Talkspace</th>
+                        <th>Ginger</th>
+                        <th>7 Cups</th>
+                        <th>Woebot</th>
+                        <th>Wysa</th>
+                        <th>ReGain</th>
+                        <th>Pride Counseling</th>
+                        <th>Teen Counseling</th>
+                        <th>Faithful Counseling</th>
+                        <th>Lyra Health</th>
+                        <th>Cognoa</th>
+                        <th>Sober Grid</th>
+                        <th>Elomia</th>
+                        <th>iFeel</th>
+                        <th>Earkick</th>
+                        <th>Eleos Health</th>
+                        <th>INVI MindHealth</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Proactive Crisis Detection</td>
+                        <td>✅</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>✅</td>
+                        <td>❌</td>
+                        <td>✅</td>
+                        <td>❌</td>
+                        <td>✅</td>
+                        <td>❌</td>
+                        <td>✅</td>
+                    </tr>
+                    <tr>
+                        <td>AI-Powered Interventions</td>
+                        <td>✅</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>✅</td>
+                        <td>✅</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>✅</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>✅</td>
+                        <td>✅</td>
+                        <td>✅</td>
+                        <td>✅</td>
+                        <td>✅</td>
+                    </tr>
+                    <tr>
+                        <td>Focus on Veterans and First Responders</td>
+                        <td>✅</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>✅</td>
+                        <td>✅</td>
+                    </tr>
+                    <tr>
+                        <td>Support for Influencers and Creators</td>
+                        <td>✅</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>✅</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                    </tr>
+                    <tr>
+                        <td>Senior Protection from Scams</td>
+                        <td>✅</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                    </tr>
+                    <tr>
+                        <td>Integration with School Systems</td>
+                        <td>✅</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>✅</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                    </tr>
+                    <tr>
+                        <td>Economic Impact Focus</td>
+                        <td>✅</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>✅</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>✅</td>
+                        <td>❌</td>
+                    </tr>
+                    <tr>
+                        <td>AI-Driven Assessments (THRIVE-ID)</td>
+                        <td>✅</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>✅</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>✅</td>
+                        <td>❌</td>
+                        <td>✅</td>
+                        <td>✅</td>
+                        <td>❌</td>
+                    </tr>
+                    <tr>
+                        <td>Human Therapist Interaction</td>
+                        <td>✅</td>
+                        <td>✅</td>
+                        <td>✅</td>
+                        <td>✅</td>
+                        <td>✅</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>✅</td>
+                        <td>✅</td>
+                        <td>✅</td>
+                        <td>✅</td>
+                        <td>✅</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>✅</td>
+                        <td>❌</td>
+                        <td>✅</td>
+                        <td>✅</td>
+                    </tr>
+                    <tr>
+                        <td>24/7 Availability</td>
+                        <td>✅</td>
+                        <td>❌</td>
+                        <td>✅</td>
+                        <td>✅</td>
+                        <td>✅</td>
+                        <td>✅</td>
+                        <td>✅</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>✅</td>
+                        <td>✅</td>
+                        <td>✅</td>
+                        <td>✅</td>
+                        <td>❌</td>
+                        <td>✅</td>
+                        <td>✅</td>
+                        <td>✅</td>
+                    </tr>
+                    <tr>
+                        <td>Insurance Accepted</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>✅</td>
+                        <td>✅</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>✅</td>
+                        <td>✅</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>✅</td>
+                        <td>✅</td>
+                    </tr>
+                    <tr>
+                        <td>Financial Aid Available</td>
+                        <td>✅</td>
+                        <td>✅</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>✅</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>✅</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                    </tr>
+                    <tr>
+                        <td>Specialized Counseling Services</td>
+                        <td>✅</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>✅</td>
+                        <td>✅</td>
+                        <td>✅</td>
+                        <td>✅</td>
+                        <td>✅</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>✅</td>
+                        <td>❌</td>
+                        <td>✅</td>
+                        <td>✅</td>
+                    </tr>
+                    <tr>
+                        <td>Hardened Local AI Model</td>
+                        <td>✅</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                    </tr>
+                    <tr>
+                        <td>Homicide Model</td>
+                        <td>✅</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                    </tr>
+                    <tr>
+                        <td>Sexual Risk Model</td>
+                        <td>✅</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                    </tr>
+                    <tr>
+                        <td>Mass Violence Model</td>
+                        <td>✅</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                    </tr>
+                    <tr>
+                        <td>Terrorism Model</td>
+                        <td>✅</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Support Us Section -->
+    <section id="support">
+        <h2>Support Our Mission</h2>
+        <p>Your support can make a significant difference in preventing crises and saving lives. Whether through donations or investments, you help us move closer to a safer world.</p>
+        <a href="https://gofund.me/a2489ed6" target="_blank" class="btn btn-center">Donate on GoFundMe</a>
+        <a href="#contact" class="btn btn-center">Invest with Us</a>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials">
+        <h2>Testimonials</h2>
+        <div class="testimonial-container">
+            <!-- Testimonial 1 -->
+            <div class="testimonial">
+                <h3>Emily Rose, Content Creator</h3>
+                <p>"PreCrisis.AI has significantly reduced the amount of harassment I receive online. It's like having a personal shield against cyberbullying."</p>
+            </div>
+
+            <!-- Testimonial 2 -->
+            <div class="testimonial">
+                <h3>John Smith, First Responder</h3>
+                <p>"As a first responder, the support from PreCrisis.AI makes my job easier and less stressful. It’s truly life-saving technology."</p>
+            </div>
+
+            <!-- Testimonial 3 -->
+            <div class="testimonial">
+                <h3>Linda Johnson, Concerned Daughter</h3>
+                <p>"Knowing that my elderly mother is protected from online scams gives me peace of mind. Thank you, PreCrisis.AI!"</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <h2>Get in Touch</h2>
+        <p>If you're interested in investing or have any questions, please reach out to us at:</p>
+        <a href="mailto:trisha@lifeline.vet,brandon@lifeline.vet" class="btn btn-center">Contact Us</a>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2023 PreCrisis.AI. All rights reserved.</p>
+    </footer>
+
+    <!-- JavaScript -->
     <script>
-        console.log("You didn’t really think I’d expose anything here, did you? 😜");
 
-        const output = document.getElementById("output");
-        const userInput = document.getElementById("user-input");
-        const cursor = document.querySelector(".blinking-cursor");
+        function updateWiggleEffect() {
+            // Remove wiggle effect from all buttons in all sections
+            document.querySelectorAll('.wiggle-button').forEach(button => {
+                button.classList.remove('wiggle-button');
+            });
 
-        // Fake responses for Linux commands
-        const commandResponses = {
-            "ls": "documents\ndata\nrestricted_files",
-            "pwd": "/home/user",
-            "whoami": "unauthorized_user",
-            "help": "Available commands: ls, pwd, whoami, help, clear",
-            "clear": "clear"
-        };
+            // Get the current hash and find the matching section
+            const currentHash = window.location.hash;
+            console.log('Current hash:', currentHash);
 
-        // Handle Enter key for command input
-        userInput.addEventListener("keydown", function(event) {
-            if (event.key === "Enter") {
-                event.preventDefault(); // Prevent new line
-                const command = userInput.textContent.trim();
-                userInput.textContent = "";
+            if (currentHash) {
+                const activeSection = document.querySelector(currentHash);
+                console.log('Active section:', activeSection);
 
-                // Output the command
-                output.textContent += `\nuser@PreCrisis.AI:~$ ${command}\n`;
+                if (activeSection) {
+                    const buttons = activeSection.querySelectorAll('a');
+                    console.log('Buttons found:', buttons);
 
-                // Determine response
-                if (commandResponses[command]) {
-                    if (command === "clear") {
-                        output.textContent = "PreCrisis.AI - Restricted Terminal Access\nUnauthorized access is forbidden. All actions are monitored.";
-                    } else {
-                        output.textContent += `${commandResponses[command]}\n`;
-                    }
+                    buttons.forEach(button => {
+                        console.log('Adding wiggle effect to button:', button);
+                        setTimeout(
+                            function(){
+                                this.classList.add('wiggle-button');
+                            }.bind(button),
+                            300
+                        )
+                    });
                 } else {
-                    output.textContent += `command not found: ${command}\n`;
+                    console.warn('No section found for the hash:', currentHash);
                 }
-
-                // Auto-scroll to bottom
-                terminal.scrollTop = terminal.scrollHeight;
+            } else {
+                console.warn('No hash in the URL.');
             }
-        });
-
-        // Handle focus and blur events for cursor
-        userInput.addEventListener("focus", () => {
-            cursor.classList.add("active");
-            placeCaretAtEnd(userInput);
-        });
-
-        userInput.addEventListener("blur", () => {
-            cursor.classList.remove("active");
-        });
-
-        // Function to place caret at the end of the contenteditable span
-        function placeCaretAtEnd(element) {
-            const range = document.createRange();
-            const selection = window.getSelection();
-            range.selectNodeContents(element);
-            range.collapse(false);
-            selection.removeAllRanges();
-            selection.addRange(range);
         }
 
-        // Focus on the input when clicking anywhere in the terminal
-        document.getElementById("terminal").addEventListener("click", () => {
-            userInput.focus();
+
+        // Apply the wiggle effect on page load and whenever the hash changes
+        window.addEventListener('load', updateWiggleEffect);
+        window.addEventListener('hashchange', updateWiggleEffect);
+
+        // Smooth scroll to sections
+        document.querySelectorAll('nav a[href^="#"], .btn[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const hash = this.getAttribute('href');
+                const targetElement = document.querySelector(hash);
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                    window.location.hash = hash;
+                }
+            });
         });
+
     </script>
 </body>
 </html>
